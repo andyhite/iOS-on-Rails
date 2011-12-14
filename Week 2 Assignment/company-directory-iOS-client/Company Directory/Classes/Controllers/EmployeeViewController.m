@@ -126,6 +126,9 @@ enum {
         case EmailRowIndex:
             [self composeMail];
             break;
+        case PhoneNumberRowIndex:
+            [self callPhoneNumber];
+            break;
         default:
             break;
     }
@@ -139,6 +142,10 @@ enum {
     
     // Employee image
     UIImageView *imageView = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 80, 80)] autorelease];
+    [imageView.layer setCornerRadius:6.0];
+    [imageView.layer setMasksToBounds:YES];
+    [imageView.layer setBorderColor:[UIColor lightGrayColor].CGColor];
+    [imageView.layer setBorderWidth:1.0];
     
     // Employee name label
     UILabel *nameLabel = [[[UILabel alloc] initWithFrame:CGRectMake(100, 10, 210, 40)] autorelease];
@@ -166,7 +173,13 @@ enum {
     return 100;
 }
 
-#pragma mark - Convenience Methods
+#pragma mark - Actions
+
+- (void)callPhoneNumber {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"Call %@?", self.employee.phoneNumber] delegate:self cancelButtonTitle:NSLocalizedString(@"Nope", nil) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Okay!", nil), nil];
+    [actionSheet setActionSheetStyle:UIActionSheetStyleBlackTranslucent];
+    [actionSheet showInView:self.view];
+}
 
 - (void)composeMail {
     NSString *messageSubject = [NSString stringWithFormat:@"Hello, %@", self.employee.name];
@@ -192,6 +205,18 @@ enum {
     }
     
     [self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel:"]]) {
+        NSString *phoneURLString = [NSString stringWithFormat:@"tel:%@", self.employee.phoneNumber];
+        NSURL *phoneURL = [NSURL URLWithString:[phoneURLString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+        [[UIApplication sharedApplication] openURL:phoneURL];
+    } else {
+        NSLog(@"Would normally make a call right now, but the simulator doesn't support it");
+    }
 }
 
 @end
