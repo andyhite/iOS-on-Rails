@@ -11,8 +11,10 @@
 #import "Employee.h"
 
 enum {
-    BirthdayRowIndex    = 2,
-    SalaryRowIndex      = 3,
+    BirthdayRowIndex    = 0,
+    SalaryRowIndex      = 1,
+    PhoneNumberRowIndex = 2,
+    EmailRowIndex       = 3
 } EmployeeViewControllerRowIndexes;
 
 @interface EmployeeViewController ()
@@ -95,7 +97,7 @@ enum {
 
 - (void)configureCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+
     switch (indexPath.row) {
         case BirthdayRowIndex:
             cell.textLabel.text = NSLocalizedString(@"Birthday", nil);
@@ -104,6 +106,25 @@ enum {
         case SalaryRowIndex:
             cell.textLabel.text = NSLocalizedString(@"Salary", nil);
             cell.detailTextLabel.text = [self.employee formattedSalaryString];
+            break;
+        case PhoneNumberRowIndex:
+            cell.textLabel.text = NSLocalizedString(@"Phone Number", nil);
+            cell.detailTextLabel.text = [self.employee phoneNumber];
+            break;
+        case EmailRowIndex:
+            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            cell.textLabel.text = NSLocalizedString(@"Email", nil);
+            cell.detailTextLabel.text = [self.employee email];
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    switch (indexPath.row) {
+        case EmailRowIndex:
+            [self composeMail];
             break;
         default:
             break;
@@ -143,6 +164,34 @@ enum {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 100;
+}
+
+#pragma mark - Convenience Methods
+
+- (void)composeMail {
+    NSString *messageSubject = [NSString stringWithFormat:@"Hello, %@", self.employee.name];
+    NSArray *messageRecipients = [NSArray arrayWithObject:self.employee.email];
+    NSString *messageBody = [NSString stringWithFormat:@"You're doing a great job as a %@!", self.employee.jobTitle];
+    
+    MFMailComposeViewController *composeView = [[MFMailComposeViewController alloc] init];
+    [composeView setMailComposeDelegate:self];
+    [composeView setSubject:messageSubject];
+    [composeView setToRecipients:messageRecipients];
+    [composeView setMessageBody:messageBody isHTML:NO];
+    
+    [self presentModalViewController:composeView animated:YES];
+}
+
+#pragma mark - MFMailComposeViewDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    if (result == MFMailComposeResultSent) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Hooray!", nil) message:NSLocalizedString(@"Message sent!", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Continue", nil) otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+    }
+    
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 @end

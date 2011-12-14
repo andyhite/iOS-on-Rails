@@ -8,13 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
+
 // This is a forward-class declaration, used instead of an #import. 
 // See http://stackoverflow.com/questions/322597/class-vs-import for a detailed explanation.
 @class Employee;
 
-@interface EmployeeViewController : UITableViewController
+@interface EmployeeViewController : UITableViewController <MFMailComposeViewControllerDelegate>
 
 @property (readonly, nonatomic, retain) Employee *employee;
 
 - (id)initWithEmployee:(Employee *)employee;
+- (void)composeMail;
 @end
