@@ -17,11 +17,15 @@
 @property (nonatomic, copy) NSString *jobTitle;
 @property (nonatomic, retain) NSDate *birthday;
 @property (nonatomic, retain) NSNumber *salary;
+@property (nonatomic, retain) NSURL *imageUrl;
+@property (nonatomic, copy) NSString *phoneNumber;
+@property (nonatomic, copy) NSString *email;
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
 
 - (NSString *)formattedBirthdayString;
 - (NSString *)formattedSalaryString;
+- (UIImage *)image;
 
 + (NSArray *)employeesWithAttributes:(NSDictionary *)attributes;
 + (void)employeesWithBlock:(void (^)(NSArray *employees))block;

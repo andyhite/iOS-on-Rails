@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111214185134) do
+ActiveRecord::Schema.define(:version => 20111214203247) do
 
   create_table "departments", :force => true do |t|
     t.string   "name"
@@ -27,6 +27,9 @@ ActiveRecord::Schema.define(:version => 20111214185134) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "department_id"
+    t.string   "image_url"
+    t.string   "phone_number"
+    t.string   "email"
   end
 
   add_index "employees", ["department_id"], :name => "index_employees_on_department_id"

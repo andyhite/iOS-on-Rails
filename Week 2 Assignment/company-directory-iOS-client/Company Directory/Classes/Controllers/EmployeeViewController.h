@@ -17,5 +17,4 @@
 @property (readonly, nonatomic, retain) Employee *employee;
 
 - (id)initWithEmployee:(Employee *)employee;
-
 @end

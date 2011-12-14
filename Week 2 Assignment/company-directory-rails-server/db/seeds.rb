@@ -1,2 +1,2 @@
 @department = Department.create(:name => "Test Department")
-Employee.create(:name => "Test Employee", :job_title => "Foobar", :birthday => Date.today, :salary => 100000, :department => @department)
+Employee.create(:name => "Test Employee", :job_title => "Foobar", :birthday => Date.today, :salary => 100000, :department => @department, :image_url => "http://localhost:3000/assets/avatar.png", :phone_number => "999-999-9999", :email => "test@email.com")

@@ -3,7 +3,7 @@ class Employee < ActiveRecord::Base
   
   belongs_to :department
   
-  API_ATTRIBUTES = [:name, :job_title, :birthday, :salary]
+  API_ATTRIBUTES = [:name, :job_title, :birthday, :salary, :image_url, :phone_number, :email]
   
   def birthday=(birthday) 
     case birthday
@@ -15,6 +15,6 @@ class Employee < ActiveRecord::Base
   end
   
   def as_json(options = {})
-    super(options.merge({ :only => API_ATTRIBUTES }))
+    super(options.merge(:only => API_ATTRIBUTES))
   end
 end

@@ -30,6 +30,9 @@ static NSDate * BirthdayWithMonthDayYear(NSUInteger month, NSUInteger day, NSUIn
 @synthesize jobTitle = _jobTitle;
 @synthesize birthday = _birthday;
 @synthesize salary = _salary;
+@synthesize imageUrl = _imageUrl;
+@synthesize phoneNumber = _phoneNumber;
+@synthesize email = _email;
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
     self = [super init];
@@ -44,6 +47,9 @@ static NSDate * BirthdayWithMonthDayYear(NSUInteger month, NSUInteger day, NSUIn
     self.birthday = [iso8601Formatter dateFromString:[attributes valueForKey:@"birthday"]];
     
     self.salary = [NSNumber numberWithFloat:[[attributes valueForKey:@"salary"] floatValue]];
+    self.imageUrl = [NSURL URLWithString:[attributes valueForKey:@"image_url"]];
+    self.phoneNumber = [attributes valueForKey:@"phone_number"];
+    self.email = [attributes valueForKey:@"email"];
     
     return self;
 }
@@ -71,6 +77,10 @@ static NSDate * BirthdayWithMonthDayYear(NSUInteger month, NSUInteger day, NSUIn
     [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
     
     return [numberFormatter stringFromNumber:self.salary];
+}
+
+- (UIImage *)image {
+    return [UIImage imageWithData:[NSData dataWithContentsOfURL:self.imageUrl]];
 }
 
 + (NSArray *)employeesWithAttributes:(NSDictionary *)attributes {

@@ -11,8 +11,6 @@
 #import "Employee.h"
 
 enum {
-    NameRowIndex        = 0,
-    JobTitleRowIndex    = 1,
     BirthdayRowIndex    = 2,
     SalaryRowIndex      = 3,
 } EmployeeViewControllerRowIndexes;
@@ -48,6 +46,8 @@ enum {
     [super viewDidLoad];
     
     self.title = self.employee.name;
+    
+    
 }
 
 - (void)viewDidUnload {
@@ -97,14 +97,6 @@ enum {
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     switch (indexPath.row) {
-        case NameRowIndex:
-            cell.textLabel.text = NSLocalizedString(@"Name", nil);
-            cell.detailTextLabel.text = self.employee.name;
-            break;
-        case JobTitleRowIndex:
-            cell.textLabel.text = NSLocalizedString(@"Job Title", nil);
-            cell.detailTextLabel.text = self.employee.jobTitle;
-            break;
         case BirthdayRowIndex:
             cell.textLabel.text = NSLocalizedString(@"Birthday", nil);
             cell.detailTextLabel.text = [self.employee formattedBirthdayString];
@@ -116,6 +108,41 @@ enum {
         default:
             break;
     }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    // Header container view
+    UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, 100)] autorelease];
+    [headerView setBackgroundColor:[UIColor clearColor]];
+    
+    // Employee image
+    UIImageView *imageView = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 80, 80)] autorelease];
+    
+    // Employee name label
+    UILabel *nameLabel = [[[UILabel alloc] initWithFrame:CGRectMake(100, 10, 210, 40)] autorelease];
+    [nameLabel setBackgroundColor:[UIColor clearColor]];
+    [nameLabel setFont:[UIFont boldSystemFontOfSize:24]];
+    
+    // Employee job title label
+    UILabel *jobTitleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(100, 50, 210, 40)] autorelease];
+    [jobTitleLabel setBackgroundColor:[UIColor clearColor]];
+    [jobTitleLabel setFont:[UIFont systemFontOfSize:18]];
+            
+    // Add the subviews
+    [headerView addSubview:nameLabel];
+    [headerView addSubview:jobTitleLabel];
+    [headerView addSubview:imageView];
+    
+    nameLabel.text = self.employee.name;
+    jobTitleLabel.text = self.employee.jobTitle;
+    imageView.image = self.employee.image;
+    
+    return headerView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 100;
 }
 
 @end
