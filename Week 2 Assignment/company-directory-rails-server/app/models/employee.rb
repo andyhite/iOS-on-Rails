@@ -1,6 +1,10 @@
 class Employee < ActiveRecord::Base
   validates :name, :presence => true
   
+  belongs_to :department
+  
+  API_ATTRIBUTES = [:name, :job_title, :birthday, :salary]
+  
   def birthday=(birthday) 
     case birthday
     when String
@@ -11,6 +15,6 @@ class Employee < ActiveRecord::Base
   end
   
   def as_json(options = {})
-    super(:only => [:name, :job_title, :birthday, :salary])
+    super(options.merge({ :only => API_ATTRIBUTES }))
   end
 end

@@ -6,10 +6,11 @@
 //  Copyright (c) 2011年 CabForward. All rights reserved.
 //
 
+#import "CompanyDirectoryAPIClient.h"
+
 #import "Employee.h"
 
 #import "ISO8601DateFormatter.h"
-#import "AFJSONRequestOperation.h"
 
 static NSDate * BirthdayWithMonthDayYear(NSUInteger month, NSUInteger day, NSUInteger year) {
     NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
@@ -23,6 +24,8 @@ static NSDate * BirthdayWithMonthDayYear(NSUInteger month, NSUInteger day, NSUIn
 }
 
 @implementation Employee
+
+@synthesize department = _department;
 @synthesize name = _name;
 @synthesize jobTitle = _jobTitle;
 @synthesize birthday = _birthday;
@@ -70,22 +73,23 @@ static NSDate * BirthdayWithMonthDayYear(NSUInteger month, NSUInteger day, NSUIn
     return [numberFormatter stringFromNumber:self.salary];
 }
 
++ (NSArray *)employeesWithAttributes:(NSDictionary *)attributes {
+    NSMutableArray *mutableEmployees = [NSMutableArray array];
+    for (NSDictionary *employeeAttributes in attributes) {
+        Employee *employee = [[[Employee alloc] initWithAttributes:employeeAttributes] autorelease];
+        [mutableEmployees addObject:employee];
+    }
+    return mutableEmployees;
+}
+
 + (void)employeesWithBlock:(void (^)(NSArray *employees))block {
-    NSURL *url = [NSURL URLWithString:@"http://localhost:3000/employees.json"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [[AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        NSMutableArray *mutableEmployees = [NSMutableArray array];
-        for (NSDictionary *attributes in [JSON valueForKey:@"employees"]) {
-            Employee *employee = [[[Employee alloc] initWithAttributes:attributes] autorelease];
-            [mutableEmployees addObject:employee];
-        }
-        
+    [[CompanyDirectoryAPIClient sharedClient] getPath:@"employees" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (block) {
-            block(mutableEmployees);
+            block([Employee employeesWithAttributes:[responseObject valueForKey:@"employees"]]);
         }
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
-    }] start];
+    }];
 }
 
 

@@ -11,7 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111210161156) do
+ActiveRecord::Schema.define(:version => 20111214185134) do
+
+  create_table "departments", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "employees", :force => true do |t|
     t.string   "name"
@@ -20,6 +26,9 @@ ActiveRecord::Schema.define(:version => 20111210161156) do
     t.decimal  "salary"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "department_id"
   end
+
+  add_index "employees", ["department_id"], :name => "index_employees_on_department_id"
 
 end

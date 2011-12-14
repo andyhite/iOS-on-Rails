@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		496F67ED14992AE700CF6761 /* Department.m in Sources */ = {isa = PBXBuildFile; fileRef = 496F67EC14992AE700CF6761 /* Department.m */; };
 		F886A03B14907E400017B3A6 /* EmployeeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F886A03A14907E400017B3A6 /* EmployeeViewController.m */; };
 		F88C35301493BEB8005A2FBD /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F88C351B1493BEB8005A2FBD /* AFHTTPClient.m */; };
 		F88C35311493BEB8005A2FBD /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F88C351D1493BEB8005A2FBD /* AFHTTPRequestOperation.m */; };
@@ -33,6 +34,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		496F67EB14992AE700CF6761 /* Department.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Department.h; sourceTree = "<group>"; };
+		496F67EC14992AE700CF6761 /* Department.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Department.m; sourceTree = "<group>"; };
 		F886A03914907E400017B3A6 /* EmployeeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmployeeViewController.h; sourceTree = "<group>"; };
 		F886A03A14907E400017B3A6 /* EmployeeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmployeeViewController.m; sourceTree = "<group>"; };
 		F88C351A1493BEB8005A2FBD /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
@@ -222,6 +225,8 @@
 			children = (
 				F8F7625E148D34C6004F8DBB /* Employee.h */,
 				F8F7625F148D34C6004F8DBB /* Employee.m */,
+				496F67EB14992AE700CF6761 /* Department.h */,
+				496F67EC14992AE700CF6761 /* Department.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -315,6 +320,7 @@
 				F88C35421493CE61005A2FBD /* NewEmployeeViewController.m in Sources */,
 				F88C35471493E46D005A2FBD /* CompanyDirectoryAPIClient.m in Sources */,
 				F88C35531493EC71005A2FBD /* ISO8601DateFormatter.m in Sources */,
+				496F67ED14992AE700CF6761 /* Department.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

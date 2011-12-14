@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import "Department.h"
+
 @interface Employee : NSObject
 
+@property (nonatomic, retain) Department *department;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *jobTitle;
 @property (nonatomic, retain) NSDate *birthday;
@@ -20,6 +23,7 @@
 - (NSString *)formattedBirthdayString;
 - (NSString *)formattedSalaryString;
 
++ (NSArray *)employeesWithAttributes:(NSDictionary *)attributes;
 + (void)employeesWithBlock:(void (^)(NSArray *employees))block;
 
 @end
